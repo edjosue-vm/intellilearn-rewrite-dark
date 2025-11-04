@@ -118,33 +118,49 @@ export default function ExplanationViewer({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 relative overflow-hidden">
+      {/* Decorative background */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-30">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-purple-300/40 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-pink-300/40 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+      
       {/* Progress indicator */}
-      <div className="fixed top-0 left-0 right-0 h-2 bg-purple-100 z-50 shadow-sm">
+      <div className="fixed top-0 left-0 right-0 h-3 bg-white/50 backdrop-blur-sm z-50 shadow-lg">
         <div 
-          className="h-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 transition-all duration-500 rounded-r-full"
+          className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 transition-all duration-500 rounded-r-full shadow-lg"
           style={{ width: `${(path.visitedStepIds.length / path.steps.length) * 100}%` }}
-        ></div>
+        >
+          <div className="absolute right-0 top-0 h-full w-8 bg-white/30 blur-sm"></div>
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-8 pt-6">
-          <div className="inline-flex items-center gap-2 bg-white rounded-full px-8 py-3 border-2 border-purple-200 shadow-lg">
-            <span className="text-purple-600 font-bold text-lg">
-              Step {path.visitedStepIds.length + 1} of {path.steps.length}
+        <div className="text-center mb-10 pt-8">
+          <div className="inline-flex items-center gap-3 bg-white rounded-full px-10 py-4 border-2 border-purple-300 shadow-2xl">
+            <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span className="text-purple-600 font-extrabold text-xl">
+              Paso {path.visitedStepIds.length + 1} de {path.steps.length}
             </span>
           </div>
         </div>
 
         {/* Main content */}
-        <div className="space-y-8">
+        <div className="space-y-10">
           {/* Content text */}
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl p-10 border-2 border-purple-200 shadow-xl">
-              <p className="text-2xl text-gray-800 leading-relaxed text-center font-medium">
-                {currentStep.content}
-              </p>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-200 to-pink-200 rounded-3xl blur opacity-30"></div>
+              <div className="relative bg-white rounded-3xl p-12 border-2 border-purple-300 shadow-2xl">
+                <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full shadow-lg"></div>
+                <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full shadow-lg"></div>
+                <p className="text-2xl text-gray-800 leading-relaxed text-center font-medium">
+                  {currentStep.content}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -155,37 +171,51 @@ export default function ExplanationViewer({
 
           {/* Mode switcher */}
           {visualProgress >= 100 && (
-            <div className="max-w-4xl mx-auto flex justify-center gap-4 mb-4">
-              <button
-                onClick={() => setVisualMode('diagram')}
-                className={`px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-md hover:shadow-lg ${
-                  visualMode === 'diagram'
-                    ? 'bg-gradient-to-r from-blue-400 to-blue-500 text-white scale-105'
-                    : 'bg-white text-gray-700 hover:bg-blue-50 border-2 border-blue-200'
-                }`}
-              >
-                📊 Diagram
-              </button>
-              <button
-                onClick={() => setVisualMode('analogy')}
-                className={`px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-md hover:shadow-lg ${
-                  visualMode === 'analogy'
-                    ? 'bg-gradient-to-r from-purple-400 to-purple-500 text-white scale-105'
-                    : 'bg-white text-gray-700 hover:bg-purple-50 border-2 border-purple-200'
-                }`}
-              >
-                🤔 Analogy
-              </button>
-              <button
-                onClick={() => setVisualMode('example')}
-                className={`px-6 py-3 rounded-xl transition-all duration-300 font-semibold shadow-md hover:shadow-lg ${
-                  visualMode === 'example'
-                    ? 'bg-gradient-to-r from-green-400 to-green-500 text-white scale-105'
-                    : 'bg-white text-gray-700 hover:bg-green-50 border-2 border-green-200'
-                }`}
-              >
-                💡 Example
-              </button>
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white rounded-3xl p-6 border-2 border-purple-200 shadow-xl">
+                <p className="text-center text-sm text-gray-600 mb-4 font-semibold">Cambia la vista:</p>
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={() => setVisualMode('diagram')}
+                    className={`group px-8 py-4 rounded-2xl transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
+                      visualMode === 'diagram'
+                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white scale-105'
+                        : 'bg-white text-gray-700 hover:bg-blue-50 border-2 border-blue-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">📊</span>
+                      <span>Diagrama</span>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setVisualMode('analogy')}
+                    className={`group px-8 py-4 rounded-2xl transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
+                      visualMode === 'analogy'
+                        ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white scale-105'
+                        : 'bg-white text-gray-700 hover:bg-purple-50 border-2 border-purple-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">🤔</span>
+                      <span>Analogía</span>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setVisualMode('example')}
+                    className={`group px-8 py-4 rounded-2xl transition-all duration-300 font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
+                      visualMode === 'example'
+                        ? 'bg-gradient-to-r from-green-500 to-green-600 text-white scale-105'
+                        : 'bg-white text-gray-700 hover:bg-green-50 border-2 border-green-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">💡</span>
+                      <span>Ejemplo</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
