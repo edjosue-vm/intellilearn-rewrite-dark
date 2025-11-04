@@ -3,18 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  /* Soft pastel color palette */
+  --background: #faf9f6;
+  --foreground: #2d3748;
+  --pastel-pink: #ffd1dc;
+  --pastel-blue: #d4e4f7;
+  --pastel-purple: #e8d5f2;
+  --pastel-green: #d4f4dd;
+  --pastel-yellow: #fff4d6;
+  --pastel-peach: #ffdfd3;
+  --soft-gray: #f0eff4;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar with pastel colors */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--soft-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pastel-purple);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d5c1e8;
 }
